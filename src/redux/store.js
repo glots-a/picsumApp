@@ -5,10 +5,12 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import userReducer from './userSlice';
 import {userApi} from './api/userApi';
+import {avatarApi} from './api/avatarApi';
 
 const rootReducer = combineReducers({
   user: userReducer,
   [userApi.reducerPath]: userApi.reducer,
+  [avatarApi.reducerPath]: avatarApi.reducer,
 });
 
 const persistConfig = {
@@ -25,7 +27,7 @@ export const store = configureStore({
     getDefaultMiddleware({
       immutableCheck: false,
       serializableCheck: false,
-    }).concat(userApi.middleware),
+    }).concat(userApi.middleware, avatarApi.middleware),
 });
 
 export const persitor = persistStore(store);

@@ -8,10 +8,26 @@ export const userApi = createApi({
   }),
   endpoints: builder => ({
     getPicsumImages: builder.query({
-      query: () => ({
-        url: '/get///',
-      }),
-      transformResponse: resp => resp?.data,
+      query: ({page, limit}) => {
+        return {
+          url: 'v2/list',
+          params: {
+            page: page || 1,
+            limit: limit || 10,
+          },
+        };
+      },
+      serializeQueryArgs: ({endpointName}) => endpointName,
+      merge: (currentCache, newItems, {arg}) => {
+        if (arg.page === 1) {
+          return newItems;
+        }
+
+        return [...currentCache, ...newItems];
+      },
+      forceRefetch({currentArg, previousArg}) {
+        return currentArg !== previousArg;
+      },
     }),
   }),
 });

@@ -2,33 +2,14 @@ import React from 'react';
 import {Provider} from 'react-redux';
 import {PersistGate} from 'redux-persist/integration/react';
 
-import {StatusBar} from 'react-native';
 import {persitor, store} from './src/redux/store';
-import {NavigationContainer} from '@react-navigation/native';
-import {MainNavigator} from './src/navigators';
-import {SafeAreaProvider} from 'react-native-safe-area-context';
+import {Theme} from './src/navigators';
 
 const App = () => {
-  const theme = {
-    dark: false,
-    colors: {
-      primary: 'blue',
-      background: 'white',
-      card: 'white',
-      text: 'black',
-      border: 'white',
-      notification: 'red',
-    },
-  };
-
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persitor}>
-        <SafeAreaProvider>
-          <NavigationContainer theme={theme}>
-            <MainNavigator />
-          </NavigationContainer>
-        </SafeAreaProvider>
+        <Theme />
       </PersistGate>
     </Provider>
   );
