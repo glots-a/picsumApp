@@ -1,7 +1,6 @@
 # Getting Started
 
-IN THE ROOR OF PROJECT LAY THE APK FILE 'picsum.apk'
-You may install it on your android device
+The APK-file ‘picsum.apk’ is located in the root of the project. You can install it on your android device
 
 > **Note**: Make sure you have completed the [React Native - Environment Setup](https://reactnative.dev/docs/environment-setup) instructions till "Creating a new application" step, before proceeding.
 
