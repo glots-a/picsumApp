@@ -4,6 +4,7 @@ import {
   StyleSheet,
   KeyboardAvoidingView,
   Platform,
+  Alert,
 } from 'react-native';
 import React from 'react';
 import {useNavigation} from '@react-navigation/native';
@@ -12,6 +13,9 @@ import {useForm} from 'react-hook-form';
 import {EMAIL_REGEX} from '../constans';
 import {PASSWORD_REDEX} from '../constans/regex';
 import {StackNavigationProp} from '@react-navigation/stack';
+import {useAppDispatch, useAppSelector} from '../redux/hooks/redux-hooks';
+import {addToken} from '../redux/userSlice';
+import {nanoid} from '@reduxjs/toolkit';
 
 type AuthStackParamList = {
   LoginScreen: undefined;
@@ -31,8 +35,28 @@ type FormData = {
 export const LoginScreen = () => {
   const navigation = useNavigation<LoginScreenNavigationProp>();
   const {control, handleSubmit} = useForm<FormData>();
+  const dispathc = useAppDispatch();
 
-  const onSubmit = (data: FormData) => console.log(data);
+  const userData = useAppSelector(state => state.user.userData);
+
+  const onSubmit = (data: FormData) => {
+    if (userData === null) {
+      Alert.alert(
+        'Error',
+        'Email or password are incorrect or maybe you need to SignIn',
+      );
+      return;
+    }
+    const {email, password} = userData;
+
+    const isEqual = email === data?.email && password === data.password;
+
+    if (isEqual) {
+      dispathc(addToken(nanoid()));
+    } else {
+      Alert.alert('Error', 'Email or password are incorrect');
+    }
+  };
 
   const handleNavigate = () => {
     navigation.navigate('AuthScreen');

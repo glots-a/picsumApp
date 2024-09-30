@@ -11,6 +11,8 @@ import {Container, CustomButton, CustomInput} from '../components';
 import {useForm} from 'react-hook-form';
 import {EMAIL_REGEX} from '../constans';
 import {PASSWORD_REDEX} from '../constans/regex';
+import {useAppDispatch} from '../redux/hooks/redux-hooks';
+import {addUserDataAction} from '../redux/userSlice';
 
 type FormData = {
   email: string;
@@ -20,11 +22,15 @@ type FormData = {
 
 export const AuthScreen = () => {
   const navigation = useNavigation();
+  const dispatch = useAppDispatch();
 
   const {control, handleSubmit, watch} = useForm<FormData>();
   const pwd = watch('password');
 
-  const onSubmit = (data: FormData) => console.log(data);
+  const onSubmit = (data: FormData) => {
+    const {password, email} = data;
+    dispatch(addUserDataAction({password, email}));
+  };
 
   const handleNavigate = () => {
     navigation.goBack();

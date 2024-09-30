@@ -1,4 +1,4 @@
-import {createSlice, PayloadAction} from '@reduxjs/toolkit';
+import {createSlice, nanoid, PayloadAction} from '@reduxjs/toolkit';
 import {avatarApi} from './api/avatarApi';
 import {FetchBaseQueryError} from '@reduxjs/toolkit/query';
 
@@ -10,9 +10,14 @@ type Data = {
   avatar: string;
 };
 
+type Auth = {
+  email: string;
+  password: string;
+};
+
 type UserState = {
   user: Data | Data[] | null;
-  userData: null;
+  userData: Auth | null;
   token: string | null;
   isLoading: boolean;
   error: FetchBaseQueryError | null;
@@ -32,8 +37,7 @@ const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    initiateUser: () => {},
-    setToken: (state, action) => {
+    addToken: (state, action) => {
       state.token = action.payload;
     },
     removeToken: state => {
@@ -41,6 +45,10 @@ const userSlice = createSlice({
     },
     swithcThemeMode: state => {
       state.isDarkTheme = !state.isDarkTheme;
+    },
+    addUserDataAction: (state, action) => {
+      state.userData = action.payload;
+      state.token = nanoid();
     },
   },
   extraReducers: builder => {
@@ -74,5 +82,5 @@ const userSlice = createSlice({
 });
 
 export default userSlice.reducer;
-export const {initiateUser, setToken, removeToken, swithcThemeMode} =
+export const {removeToken, swithcThemeMode, addUserDataAction, addToken} =
   userSlice.actions;

@@ -13,9 +13,7 @@ export const UserComponent = () => {
     return <ActivityIndicator size={24} color={colors.border} />;
   }
 
-  const isData = Array.isArray(Object.keys(data));
-
-  return isData ? (
+  return data !== undefined ? (
     <View style={[S.CARD, {backgroundColor: colors.card}]}>
       <View style={S.AVATAR}>
         <FastImage
