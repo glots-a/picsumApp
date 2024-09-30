@@ -49,7 +49,8 @@ export const LoginScreen = () => {
     }
     const {email, password} = userData;
 
-    const isEqual = email === data?.email && password === data.password;
+    const isEqual =
+      email === data?.email.toLowerCase() && password === data.password;
 
     if (isEqual) {
       dispathc(addToken(nanoid()));

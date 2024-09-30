@@ -37,6 +37,7 @@ export const CustomInput = <T extends FieldValues>({
           <View style={S.CTR}>
             <TextInput
               value={value}
+              placeholderTextColor={'#e7ebf1'}
               onChangeText={onChange}
               onBlur={onBlur}
               placeholder={placeholder}
@@ -58,6 +59,7 @@ const S = StyleSheet.create({
   },
   INPUT: {
     height: 40,
+    color: '#fff',
   },
   TEXT: {
     color: 'red',

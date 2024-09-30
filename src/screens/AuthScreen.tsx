@@ -29,7 +29,8 @@ export const AuthScreen = () => {
 
   const onSubmit = (data: FormData) => {
     const {password, email} = data;
-    dispatch(addUserDataAction({password, email}));
+    const correctedEmail = email.toLocaleLowerCase();
+    dispatch(addUserDataAction({password, email: correctedEmail}));
   };
 
   const handleNavigate = () => {
