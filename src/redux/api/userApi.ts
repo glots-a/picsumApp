@@ -1,5 +1,6 @@
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react';
-import {BASE_URL} from 'react-native-dotenv';
+//import {BASE_URL} from 'react-native-dotenv';
+const BASE_URL = 'https://picsum.photos/';
 
 export const userApi = createApi({
   reducerPath: 'userApi',

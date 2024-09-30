@@ -1,8 +1,27 @@
-import {createSlice} from '@reduxjs/toolkit';
+import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {avatarApi} from './api/avatarApi';
+import {FetchBaseQueryError} from '@reduxjs/toolkit/query';
 
-const initialState = {
+type Data = {
+  id: string;
+  email: string;
+  first_name: string;
+  last_name: string;
+  avatar: string;
+};
+
+type UserState = {
+  user: Data | Data[] | null;
+  userData: null;
+  token: string | null;
+  isLoading: boolean;
+  error: FetchBaseQueryError | null;
+  isDarkTheme: boolean;
+};
+
+const initialState: UserState = {
   user: null,
+  userData: null,
   token: null,
   isLoading: false,
   error: null,
@@ -39,8 +58,15 @@ const userSlice = createSlice({
       )
       .addMatcher(
         avatarApi.endpoints.getAvatar.matchRejected,
-        (state, action) => {
-          state.error = action.payload;
+        (state, action: PayloadAction<FetchBaseQueryError | undefined>) => {
+          if (action.payload) {
+            state.error = action.payload;
+          } else {
+            state.error = {
+              status: 'FETCH_ERROR',
+              error: 'Unknown error occurred',
+            } as FetchBaseQueryError;
+          }
           state.isLoading = false;
         },
       );

@@ -2,7 +2,7 @@ import React, {useEffect, useRef} from 'react';
 import {View, Animated, Easing, StyleSheet} from 'react-native';
 import {colors} from '../constans';
 
-export const DotLoader = ({dotColor = colors.black}) => {
+export const DotLoader = () => {
   const dot1Anim = useRef(new Animated.Value(0)).current;
   const dot2Anim = useRef(new Animated.Value(0)).current;
   const dot3Anim = useRef(new Animated.Value(0)).current;
@@ -66,7 +66,7 @@ export const DotLoader = ({dotColor = colors.black}) => {
               transform: [{translateY: dot1Anim}],
               width: 10,
               height: 10,
-              backgroundColor: dotColor,
+              backgroundColor: colors.black,
               borderRadius: 15,
             },
           ]}
@@ -77,7 +77,7 @@ export const DotLoader = ({dotColor = colors.black}) => {
               transform: [{translateY: dot2Anim}],
               width: 10,
               height: 10,
-              backgroundColor: dotColor,
+              backgroundColor: colors.black,
               borderRadius: 5,
             },
           ]}
@@ -88,7 +88,7 @@ export const DotLoader = ({dotColor = colors.black}) => {
               transform: [{translateY: dot3Anim}],
               width: 10,
               height: 10,
-              backgroundColor: dotColor,
+              backgroundColor: colors.black,
               borderRadius: 10 / 2,
             },
           ]}

@@ -5,6 +5,15 @@ import {useGetPicsumImagesQuery} from '../redux/api/userApi';
 import {RefreshControl} from 'react-native-gesture-handler';
 import {Container, DotLoader, ImageComponent} from '../components';
 
+type ImageType = {
+  id: string;
+  author: string;
+  width: string;
+  height: string;
+  url: string;
+  download_url: string;
+};
+
 export const HomeScreen = () => {
   const [page, setPage] = useState(1);
   const {width: WIDTH} = useWindowDimensions();
@@ -33,21 +42,15 @@ export const HomeScreen = () => {
     }
   };
 
-  const renderItem = useCallback(({item, index}) => {
-    return (
-      <ImageComponent
-        index={index}
-        path={item.download_url}
-        author={item.author}
-      />
-    );
+  const renderItem = useCallback(({item}: {item: ImageType}) => {
+    return <ImageComponent path={item.download_url} author={item.author} />;
   }, []);
 
-  const foterComponent = useCallback(isloading => {
-    isloading && <ActivityIndicator size={50} color={'blue'} />;
-  }, []);
+  const key = useCallback((item: ImageType) => item?.id, []);
 
-  const key = useCallback(item => item?.id, []);
+  const footerComponent = useCallback(() => {
+    return isFetching ? <ActivityIndicator size={50} color={'blue'} /> : null;
+  }, [isFetching]);
 
   return (
     <Container>
@@ -65,7 +68,7 @@ export const HomeScreen = () => {
           refreshControl={
             <RefreshControl refreshing={isLoading} onRefresh={onRefresh} />
           }
-          ListFooterComponent={() => foterComponent(isFetching)}
+          ListFooterComponent={footerComponent}
         />
       ) : (
         <DotLoader />

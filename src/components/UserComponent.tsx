@@ -1,44 +1,44 @@
 import {View, Text, StyleSheet, ActivityIndicator} from 'react-native';
 import React from 'react';
 import FastImage from 'react-native-fast-image';
-import {useSelector} from 'react-redux';
 import {useTheme} from '@react-navigation/native';
+import {useGetAvatarQuery} from '../redux/api/avatarApi';
 
 export const UserComponent = () => {
   const {colors} = useTheme();
 
-  const userInfo = useSelector(state => state.user.user);
-  const isLoading = useSelector(state => state.user.isLoading);
+  const {data, isLoading} = useGetAvatarQuery(undefined);
 
-  const avatar = userInfo?.avatar;
-  const fullName = `${userInfo?.first_name} ${userInfo?.last_name}`;
-  const email = userInfo?.email;
+  if (isLoading) {
+    return <ActivityIndicator size={24} color={colors.border} />;
+  }
 
-  return !isLoading ? (
-    <View style={S.CARD(colors)}>
+  const isData = Array.isArray(Object.keys(data));
+
+  return isData ? (
+    <View style={[S.CARD, {backgroundColor: colors.card}]}>
       <View style={S.AVATAR}>
         <FastImage
           source={{
-            uri: avatar,
+            uri: data.avatar,
             priority: FastImage.priority.normal,
           }}
           style={S.ICON}
           resizeMode={FastImage.resizeMode.cover}
         />
       </View>
-      <View style={S.INFO}>
-        <Text style={S.DATA}>Name: {fullName}</Text>
-        <Text style={S.DATA}>email: {email}</Text>
+      <View>
+        <Text style={[S.DATA, {color: colors.text}]}>
+          Name: {`${data?.first_name} ${data?.last_name}`}
+        </Text>
+        <Text style={[S.DATA, {color: colors.text}]}>email: {data.email}</Text>
       </View>
     </View>
-  ) : (
-    <ActivityIndicator size={24} color={colors.button_green} />
-  );
+  ) : null;
 };
 
 const S = StyleSheet.create({
-  CARD: colors => ({
-    backgroundColor: colors.gray,
+  CARD: {
     width: '100%',
     flexDirection: 'row',
     columnGap: 8,
@@ -47,7 +47,7 @@ const S = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'center',
     opacity: 0.9,
-  }),
+  },
   AVATAR: {
     width: 48,
     height: 48,
@@ -57,5 +57,9 @@ const S = StyleSheet.create({
   ICON: {
     width: '100%',
     aspectRatio: 1,
+  },
+  DATA: {
+    fontSize: 14,
+    lineHeight: 19,
   },
 });

@@ -3,7 +3,12 @@ import React, {memo} from 'react';
 import {colors} from '../constans';
 import FastImage from 'react-native-fast-image';
 
-export const ImageComponent = memo(({path, author}) => {
+type Props = {
+  path: string,
+  author: string,
+};
+
+export const ImageComponent: React.FC<Props> = memo(({path, author}) => {
   return (
     <View style={S.ITEM_CTR}>
       <FastImage

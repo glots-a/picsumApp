@@ -1,16 +1,14 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import {HomeScreen, UserScreen} from '../screens';
 import {HomeSvg} from '../assets/HomeSvg';
 import {PersonSvg} from '../assets';
-import {useDispatch} from 'react-redux';
-import {avatarApi} from '../redux/api/avatarApi';
 import {useTheme} from '@react-navigation/native';
 
 const {Navigator, Screen} = createMaterialTopTabNavigator();
 
-const renderTabBarIcon = (focused, instance) => {
-  const options = {
+const renderTabBarIcon = (focused: boolean, instance: string) => {
+  const options: {[key: string]: React.JSX.Element} = {
     home: <HomeSvg focused={focused} />,
     person: <PersonSvg focused={focused} />,
   };
@@ -18,22 +16,15 @@ const renderTabBarIcon = (focused, instance) => {
 };
 
 export const HomeNavigator = () => {
-  const dispatch = useDispatch();
   const {colors} = useTheme();
-
-  /* eslint-disable */
-  useEffect(() => {
-    dispatch(avatarApi.endpoints.getAvatar.initiate());
-  }, []);
-  /* eslint-disable */
 
   return (
     <Navigator
       screenOptions={{
         lazy: true,
-        tabBarIndicatorStyle: {backgroundColor: colors.indicator, height: 2},
+        tabBarIndicatorStyle: {backgroundColor: colors.border, height: 2},
         tabBarShowIcon: true,
-        tabBarStyle: {backgroundColor: colors.gray},
+        tabBarStyle: {backgroundColor: colors.card},
         tabBarIconStyle: {
           justifyContent: 'center',
           alignItems: 'center',

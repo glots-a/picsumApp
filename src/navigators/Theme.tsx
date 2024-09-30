@@ -3,10 +3,10 @@ import {NavigationContainer} from '@react-navigation/native';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {DarkTheme, LightTheme} from '../theme';
 import {MainNavigator} from './MainNavigator';
-import {useSelector} from 'react-redux';
+import {useAppSelector} from '../redux/hooks/redux-hooks';
 
 export const Theme = () => {
-  const isDarkMode = useSelector(state => state.user.isDarkTheme);
+  const isDarkMode = useAppSelector(state => state.user.isDarkTheme);
 
   return (
     <SafeAreaProvider>
